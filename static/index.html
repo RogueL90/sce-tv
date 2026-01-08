@@ -126,8 +126,11 @@
         async function Play(e) {
             e.preventDefault();
             const url = document.getElementById('url').value;
+            const resolution = document.getElementById('resolution').value;
             let playURL = new URL(window.location.pathname + "play", window.location.origin)
             playURL.searchParams.append("url", encodeURIComponent(url))
+            playURL.searchParams.append("resolution", resolution);
+
             playButton.textContent = "Success!";
             if (videoWillLoop) {
                 playURL.searchParams.append("loop", 1)
@@ -236,7 +239,6 @@
 
                 const np = json?.nowPlaying;
                 if (!np) {
-                console.warn("Missing nowPlaying in state payload:", json);
                 document.getElementById("metadata").style.visibility = "hidden";
                 document.getElementById("playing").style.display = "block"; 
                 return;
@@ -247,7 +249,6 @@
                 document.getElementById("title").textContent = np.title ?? "";
                 document.getElementById("thumbnail").src = np.thumbnail ?? "";
             })
-            .catch(err => console.error("state fetch failed:", err));
 
 
 
